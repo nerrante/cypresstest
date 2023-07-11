@@ -27,6 +27,9 @@ registerCypressGrep()
 
 // https://github.com/filiphric/cypress-plugin-api
 import 'cypress-plugin-api'
+import addContext from 'mochawesome/addContext'
+
+
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
@@ -34,4 +37,45 @@ require('cypress-failed-log')
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 20,
+})
+
+Cypress.Screenshot.defaults({
+  onAfterScreenshot($el, props) {
+    Cypress.env('currentRetry', props.testAttemptIndex)
+  },
+})
+
+const titleToFileName = (title:string) =>
+    title.replace(/[:\/]/g, '')
+
+Cypress.on('test:after:run', (test, runnable) => {
+    if (test.state === 'failed') {
+        let parent = runnable.parent
+        let filename = ''
+        while (parent && parent.title) {
+            filename = `${titleToFileName(
+                parent.title,
+            )} -- ${filename}`
+            parent = parent.parent
+        }
+        filename += `${titleToFileName(
+            test.title,
+        )} (failed).png`
+        addContext(
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            { test },
+            `../screenshots/${Cypress.spec.name}/${filename}`,
+        )
+        addContext(
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            { test },
+            {
+                title: 'current retry number',
+                value: Cypress.env('currentRetry'),
+            },
+        )
+    }
+
 })

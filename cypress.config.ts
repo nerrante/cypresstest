@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress'
-
+import {rename} from "fs-extra";
+const cypressSplit = require('cypress-split')
 
 module.exports = defineConfig({
   e2e: {
@@ -14,7 +15,17 @@ module.exports = defineConfig({
     watchForFileChanges: false,
     baseUrl: 'https://www.saucedemo.com/',
     reporterOptions: {
-      reporterEnabled: 'spec, mocha-junit-reporter',
+      reporterEnabled: 'mochawesome, mocha-junit-reporter',
+      mochawesomeReporterOptions: {
+        useInlineDiffs: true,
+        inline: true,
+        embeddedScreenshots: true,
+        reportDir: 'test-results',
+        overwrite: true,
+        html: false,
+        json: true,
+        code: false
+      },
     },
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
     //https://blog.hao.dev/fixing-cypress-errors-part-1-chromium-out-of-memory-crashes
@@ -36,10 +47,10 @@ module.exports = defineConfig({
         }
         return launchOptions
       });
-
       require('@bahmutov/cy-grep/src/plugin')(config);
       // https://github.com/bahmutov/cypress-failed-log
       require('cypress-failed-log/on')(on);
+      cypressSplit(on, config)
       return config;
     }
   }
