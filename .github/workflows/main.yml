@@ -1,0 +1,8 @@
+name: main
+on: [push]
+jobs:
+  tests:
+    # https://github.com/bahmutov/cypress-workflows
+    uses: bahmutov/cypress-workflows/.github/workflows/split.yml@v2
+    with:
+      nE2E: 4
