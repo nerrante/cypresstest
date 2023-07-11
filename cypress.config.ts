@@ -47,20 +47,6 @@ module.exports = defineConfig({
         }
         return launchOptions
       });
-      on('after:screenshot', (details) => {
-        const endIndex = details.path.lastIndexOf('\\')
-        const screenshotPath = details.path.substring(0, endIndex)
-        const taken = details.takenAt.replace(/:/g, '')
-        const newPath = `${screenshotPath}/screenshot_${taken}.png`
-        return new Promise((resolve, reject) => {
-          rename(details.path, newPath, (err) => {
-            if (err) return reject(err)
-            // because we renamed and moved the image, resolve with the new path
-            // so it is accurate in the test results
-            resolve({ path: newPath })
-          })
-        })
-      })
       require('@bahmutov/cy-grep/src/plugin')(config);
       // https://github.com/bahmutov/cypress-failed-log
       require('cypress-failed-log/on')(on);

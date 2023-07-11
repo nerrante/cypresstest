@@ -41,42 +41,41 @@ Cypress.Keyboard.defaults({
 
 Cypress.Screenshot.defaults({
   onAfterScreenshot($el, props) {
-    let screenshotPath
-    let startIndex
-    const endIndex = props.path.length
-    if (Cypress.env('bamboo')) {
-      screenshotPath = '../Screenshots'
-      startIndex = props.path.lastIndexOf('/')
-    } else {
-      screenshotPath = '../cypress/'
-      startIndex = props.path.indexOf('screenshots')
-    }
-    const screenshot = props.path.substring(startIndex, endIndex)
-    screenshotPath = `${screenshotPath}${screenshot}`
-    Cypress.env('screenshotPath', screenshotPath)
     Cypress.env('currentRetry', props.testAttemptIndex)
   },
 })
 
-Cypress.on('test:after:run', (test) => {
-  if (test.state === 'failed') {
-    addContext(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        { test },
-        {
-          title: 'current retry number',
-          value: Cypress.env('currentRetry'),
-        },
-    )
-    addContext(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        { test },
-        {
-          title: 'screenshot',
-          value: Cypress.env('screenshotPath'),
-        },
-    )
-  }
+const titleToFileName = (title:string) =>
+    title.replace(/[:\/]/g, '')
+
+Cypress.on('test:after:run', (test, runnable) => {
+    if (test.state === 'failed') {
+        let parent = runnable.parent
+        let filename = ''
+        while (parent && parent.title) {
+            filename = `${titleToFileName(
+                parent.title,
+            )} -- ${filename}`
+            parent = parent.parent
+        }
+        filename += `${titleToFileName(
+            test.title,
+        )} (failed).png`
+        addContext(
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            { test },
+            `../screenshots/${Cypress.spec.name}/${filename}`,
+        )
+        addContext(
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            { test },
+            {
+                title: 'current retry number',
+                value: Cypress.env('currentRetry'),
+            },
+        )
+    }
+
 })
