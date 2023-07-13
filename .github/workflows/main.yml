@@ -1,5 +1,5 @@
 name: main
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   tests:
     # https://github.com/bahmutov/cypress-workflows
