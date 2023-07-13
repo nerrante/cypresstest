@@ -1,5 +1,4 @@
 import { defineConfig } from 'cypress'
-import {rename} from "fs-extra";
 const cypressSplit = require('cypress-split')
 
 module.exports = defineConfig({
