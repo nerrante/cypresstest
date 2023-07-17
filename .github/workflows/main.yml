@@ -6,3 +6,4 @@ jobs:
     uses: bahmutov/cypress-workflows/.github/workflows/split.yml@v2
     with:
       nE2E: 2
+      marge: true
