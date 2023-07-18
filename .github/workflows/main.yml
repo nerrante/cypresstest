@@ -1,5 +1,5 @@
 name: main
-on: [push, workflow_dispatch]
+on: [workflow_dispatch]
 jobs:
   tests:
     # https://github.com/nerrante/cypress-workflows
