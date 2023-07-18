@@ -19,7 +19,7 @@ module.exports = defineConfig({
         useInlineDiffs: true,
         inline: true,
         embeddedScreenshots: true,
-        reportDir: 'cypress/results',
+        reportDir: 'results',
         reportFilename: '[name].html',
         overwrite: true,
         html: true,

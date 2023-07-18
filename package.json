@@ -6,7 +6,7 @@
   "scripts": {
     "cypress": "cypress open",
     "test": "cypress run",
-    "report:merge": "mochawesome-merge cypress/results/*.json -o cypress/report.json",
+    "report:merge": "mochawesome-merge results/*.json -o cypress/report.json",
     "report:generate": "marge cypress/report.json --charts true"
   },
   "keywords": [],
