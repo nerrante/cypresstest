@@ -3,7 +3,7 @@ on: [push, workflow_dispatch]
 jobs:
   tests:
     # https://github.com/nerrante/cypress-workflows
-    uses: nerrante/cypress-workflows/.github/workflows/split.yml@v2
+    uses: nerrante/cypress-workflows/.github/workflows/split.yml@v1
     with:
       nE2E: 2
       marge: true
