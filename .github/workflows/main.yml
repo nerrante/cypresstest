@@ -2,7 +2,7 @@ name: main
 on: [workflow_dispatch]
 jobs:
   tests:
-    uses: parallel.yml
+    uses: nerrante/cypresstest/.github/workflows/parallel.yml@main
     with:
       nE2E: 2
       marge: true
