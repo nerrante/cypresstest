@@ -279,34 +279,13 @@ jobs:
           name: merged-mochawesome-report
           path: mochawesome
 
-  merge-coverage:
-    if: ${{ inputs.store-artifacts && inputs.coverage && always() }}
-    needs: [e2eTests, componentTests]
+  cleanup-artifacts:
+    if: always()
+    needs: merge-reports
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@v3
-      - name: Install dependencies 🧪
-        uses: cypress-io/github-action@v5
-        with:
-          runTests: false
-      # https://github.com/actions/download-artifact
-      - uses: actions/download-artifact@v3
-        # download all test results artifacts from the previous jobs
-        # it would be nice to download only the split jobs test artifacts
-        # but cannot specify the pattern of the test artifacts yet
-        # https://github.com/actions/download-artifact/issues/103
-        with:
-          path: split-results
-      - name: Display structure of downloaded files
-        run: ls -R split-results
+    - uses: geekyeggo/delete-artifact@v2
+      with:
+          name: cypress-split-results-e2e-*
 
-      - name: Merge coverage reports
-        # assuming the merge tool is installed
-        # https://github.com/bahmutov/cypress-code-coverage
-        run: npx cc-merge split-results
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: merged-coverage
-          path: coverage
+  
