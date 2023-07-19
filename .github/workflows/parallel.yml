@@ -232,6 +232,12 @@ jobs:
     needs: [e2eTests]
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v3
+      - name: Install dependencies 🧪
+        uses: cypress-io/github-action@v5
+        with:
+          runTests: false
       # https://github.com/actions/download-artifact
       - uses: actions/download-artifact@v3
         # download all test results artifacts from the previous jobs
