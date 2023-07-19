@@ -22,7 +22,7 @@ module.exports = defineConfig({
         reportDir: 'cypress/results',
         reportFilename: '[name].html',
         overwrite: true,
-        html: true,
+        html: false,
         json: true,
         code: false
       },

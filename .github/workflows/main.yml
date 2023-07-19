@@ -2,8 +2,7 @@ name: main
 on: [workflow_dispatch]
 jobs:
   tests:
-    # https://github.com/nerrante/cypress-workflows
-    uses: nerrante/cypress-workflows/.github/workflows/split.yml@v0.1
+    uses: parallel.yml
     with:
       nE2E: 2
       marge: true
