@@ -6,4 +6,3 @@ jobs:
     with:
       nE2E: 2
       marge: true
-      publish-summary: true
