@@ -17,7 +17,6 @@ module.exports = defineConfig({
       reporterEnabled: 'mochawesome, mocha-junit-reporter',
       mochawesomeReporterOptions: {
         useInlineDiffs: true,
-        inline: true,
         embeddedScreenshots: true,
         reportDir: 'cypress/results',
         reportFilename: '[name].html',
