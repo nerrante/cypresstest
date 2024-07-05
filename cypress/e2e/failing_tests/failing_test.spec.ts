@@ -1,6 +1,6 @@
-describe('Failing test', { tags: ['@regression'] }, function () {
-    context('Testing code', { tags: ['@this'] }, function () {
-        it(`Does something good`, { tags: ['@that'] },function () {
+describe('Failing test', { tags: ['@not'] }, function () {
+    context('Testing code', function () {
+        it(`Does something good`,function () {
             cy.visit('/')
             cy.get('#user-name').type('locked_out_user')
             cy.get('#password').type('secret_sauce')

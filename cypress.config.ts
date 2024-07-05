@@ -26,14 +26,12 @@ module.exports = defineConfig({
         code: false
       },
     },
-    specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
+    specPattern: 'cypress/e2e/**/*.{spec,cy}.{js,jsx,ts,tsx}',
     //https://blog.hao.dev/fixing-cypress-errors-part-1-chromium-out-of-memory-crashes
-    numTestsKeptInMemory: 0,
+    numTestsKeptInMemory: 1,
     env: {
-      grepFilterSpecs: true,
-      grepOmitFiltered: true,
       showLogs: true,
-      numTestsKeptInMemory: 0,
+      numTestsKeptInMemory: 1,
     },
     setupNodeEvents(on, config) {
       on('before:browser:launch', (browser, launchOptions) => {
@@ -46,10 +44,9 @@ module.exports = defineConfig({
         }
         return launchOptions
       });
-      require('@bahmutov/cy-grep/src/plugin')(config);
-      // https://github.com/bahmutov/cypress-failed-log
       require('cypress-failed-log/on')(on);
-      cypressSplit(on, config)
+      require('@bahmutov/cy-grep/src/plugin')(config);
+      // IMPORTANT: return the config object
       return config;
     }
   }
